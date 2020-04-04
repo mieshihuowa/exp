@@ -10,23 +10,18 @@ import com.yangli.experiment.entity.Students;
 import com.yangli.experiment.service.StudentsService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Generated;
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * (Students)表控制层
  *
  * @author yangli
- * @since 2020-03-04 19:59:25
+ * @since 2020-03-04 02:13:25
  */
-@CrossOrigin
 @RestController
-@RequestMapping("x/students")
+@RequestMapping("students")
 public class StudentsController extends ApiController {
     /**
      * 服务对象
@@ -41,7 +36,6 @@ public class StudentsController extends ApiController {
      * @param students 查询实体
      * @return 所有数据
      */
-    @CrossOrigin
     @GetMapping
     public R selectAll(Page<Students> page, Students students) {
         return success(this.studentsService.page(page, new QueryWrapper<>(students)));
@@ -89,18 +83,5 @@ public class StudentsController extends ApiController {
     @DeleteMapping
     public R delete(@RequestParam("idList") List<Long> idList) {
         return success(this.studentsService.removeByIds(idList));
-    }
-
-    @PostMapping("login")
-    public R login(@RequestBody Students students){
-        List<Object> list = new ArrayList<>() ;
-      //  list.add(this.studentsService.list(new QueryWrapper<>(students)));
-        Map map  = new HashMap();
-        map.put("name","yangli");
-        map.put("no","321");
-        map.put("uuid","321");
-        map.put("token","yangli3042");
-        list.add(map);
-        return success(list);
     }
 }

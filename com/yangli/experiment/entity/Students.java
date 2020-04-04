@@ -1,7 +1,5 @@
 package com.yangli.experiment.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
@@ -9,11 +7,11 @@ import java.io.Serializable;
  * (Students)表实体类
  *
  * @author yangli
- * @since 2020-03-04 19:59:21
+ * @since 2020-03-04 02:14:15
  */
 @SuppressWarnings("serial")
 public class Students extends Model<Students> {
-    @TableId(type = IdType.AUTO)
+    
     private Integer id;
     //学号
     private Integer sno;

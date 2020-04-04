@@ -1,0 +1,13 @@
+server:
+  port: 8098
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/report?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: yangli3042
+
+  servlet:
+
+multipart.enabled: true
+multipart.max-file-size: 20MB
+multipart.max-request-size: 50M

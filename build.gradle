@@ -12,6 +12,13 @@ repositories {
     mavenCentral()
 }
 
+processResources {
+
+    from('src/main') {
+        include '**/*'
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -21,6 +28,8 @@ dependencies {
     compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.0.1'
 // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.17'
+
+    compile group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.3.0'
 
 }
 
