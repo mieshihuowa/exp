@@ -6,11 +6,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yangli.experiment.entity.Students;
-import com.yangli.experiment.service.StudentsService;
+import com.yangli.experiment.entity.User;
+import com.yangli.experiment.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Generated;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,32 +18,31 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * (Students)表控制层
+ * (User)表控制层
  *
  * @author yangli
- * @since 2020-03-04 19:59:25
+ * @since 2020-04-04 23:48:44
  */
 @CrossOrigin
 @RestController
-@RequestMapping("x/students")
-public class StudentsController extends ApiController {
+@RequestMapping("x/user")
+public class UserController extends ApiController {
     /**
      * 服务对象
      */
     @Resource
-    private StudentsService studentsService;
+    private UserService userService;
 
     /**
      * 分页查询所有数据
      *
      * @param page 分页对象
-     * @param students 查询实体
+     * @param user 查询实体
      * @return 所有数据
      */
-    @CrossOrigin
     @GetMapping
-    public R selectAll(Page<Students> page, Students students) {
-        return success(this.studentsService.page(page, new QueryWrapper<>(students)));
+    public R selectAll(Page<User> page, User user) {
+        return success(this.userService.page(page, new QueryWrapper<>(user)));
     }
 
     /**
@@ -55,29 +53,29 @@ public class StudentsController extends ApiController {
      */
     @GetMapping("{id}")
     public R selectOne(@PathVariable Serializable id) {
-        return success(this.studentsService.getById(id));
+        return success(this.userService.getById(id));
     }
 
     /**
      * 新增数据
      *
-     * @param students 实体对象
+     * @param user 实体对象
      * @return 新增结果
      */
     @PostMapping
-    public R insert(@RequestBody Students students) {
-        return success(this.studentsService.save(students));
+    public R insert(@RequestBody User user) {
+        return success(this.userService.save(user));
     }
 
     /**
      * 修改数据
      *
-     * @param students 实体对象
+     * @param user 实体对象
      * @return 修改结果
      */
     @PutMapping
-    public R update(@RequestBody Students students) {
-        return success(this.studentsService.updateById(students));
+    public R update(@RequestBody User user) {
+        return success(this.userService.updateById(user));
     }
 
     /**
@@ -88,19 +86,29 @@ public class StudentsController extends ApiController {
      */
     @DeleteMapping
     public R delete(@RequestParam("idList") List<Long> idList) {
-        return success(this.studentsService.removeByIds(idList));
+        return success(this.userService.removeByIds(idList));
     }
 
     @PostMapping("login")
-    public R login(@RequestBody Students students){
+    public R login(@RequestBody User user){
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.eq("sno",user.getSno()).eq("passwd",user.getPasswd());
+
+        User u = this.userService.getOne(qw);
         List<Object> list = new ArrayList<>() ;
-      //  list.add(this.studentsService.list(new QueryWrapper<>(students)));
-        Map map  = new HashMap();
-        map.put("name","yangli");
-        map.put("no","321");
-        map.put("uuid","321");
-        map.put("token","yangli3042");
-        list.add(map);
+        if (u!=null){
+            Map map  = new HashMap();
+            map.put("name",u.getSname());
+            map.put("no",u.getSno().toString());
+            map.put("uuid","20160831");
+            map.put("role",u.getRole());
+            map.put("cno",u.getCno().toString());
+            map.put("token","yangli3042");
+            list.add(map);
+        } else {
+            return failed("账号密码错误");
+        }
+
         return success(list);
     }
 }

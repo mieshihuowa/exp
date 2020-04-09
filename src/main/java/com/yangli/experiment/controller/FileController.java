@@ -3,7 +3,9 @@ package com.yangli.experiment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.yangli.experiment.entity.Upload;
 import com.yangli.experiment.service.ExperimentService;
+import com.yangli.experiment.service.UploadService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,8 +30,10 @@ import java.net.URLEncoder;
 public class FileController extends ApiController {
     @Resource
     private ExperimentService experimentService;
+    @Resource
+    private UploadService uploadService;
     @RequestMapping("/upload")
-    public R upload(@RequestParam("file") MultipartFile file,String eno) throws IOException {
+    public R upload(@RequestParam("file") MultipartFile file,String eno,String role,String sno) throws IOException {
 //获取upload文件夹的路径
         String realPath = ("/Users/yangli/exp/"+eno);
 
@@ -39,11 +43,18 @@ public class FileController extends ApiController {
         }
 //将上传的文件写入 upload文件夹 中
         file.transferTo(new File(realPath,file.getOriginalFilename()));//文件上传
+       if(role.equals("2")) {
+           UpdateWrapper<Experiment> upw = new UpdateWrapper<>();
+           upw.eq("eno", eno).set("dir", realPath + "/" + file.getOriginalFilename());
+           this.experimentService.update(upw);
+       }else {
+           Upload up = new Upload();
+           up.setSno(Integer.parseInt(sno));
+           up.setEno(Integer.parseInt(eno));
 
-        UpdateWrapper<Experiment> upw = new UpdateWrapper<>();
-        upw.eq("eno",eno).set("dir",realPath+"/"+file.getOriginalFilename());
-        this.experimentService.update(upw);
-
+           up.setDir(realPath + "/" + file.getOriginalFilename());
+           this.uploadService.save(up);
+       }
         return success("成功");
     }
 

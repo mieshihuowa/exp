@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Experiment)表控制层
@@ -84,5 +85,15 @@ public class ExperimentController extends ApiController {
     @DeleteMapping
     public R delete(@RequestParam("idList") List<Long> idList) {
         return success(this.experimentService.removeByIds(idList));
+    }
+
+    @GetMapping("noPubExperiment")
+    public  R noPubExperiment(Page<Experiment> page,String sno){
+        return success(this.experimentService.noPubExperiment(page,sno));
+    }
+
+    @GetMapping("noPubStudents")
+    public R noPubStudents(Page<Map<String, Object>> page){
+        return success(this.experimentService.noPubStudents(page));
     }
 }

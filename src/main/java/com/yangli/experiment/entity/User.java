@@ -6,13 +6,13 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
 /**
- * (Students)表实体类
+ * (User)表实体类
  *
  * @author yangli
- * @since 2020-03-04 19:59:21
+ * @since 2020-04-04 23:48:44
  */
 @SuppressWarnings("serial")
-public class Students extends Model<Students> {
+public class User extends Model<User> {
     @TableId(type = IdType.AUTO)
     private Integer id;
     //学号
@@ -23,6 +23,8 @@ public class Students extends Model<Students> {
     private Integer cno;
     
     private String passwd;
+    
+    private String role;
 
 
     public Integer getId() {
@@ -63,6 +65,14 @@ public class Students extends Model<Students> {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     /**
